@@ -1,133 +1,229 @@
-<!-- 1. Подключаем Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASTESS | Официальный сайт</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b0c0f;
+            --card-bg: #16191e;
+            --accent-blue: #007aff;
+            --text-gray: #9ca3af;
+            --line: #2a2e35;
+        }
 
-  // Твой личный конфиг из скриншота
-  const firebaseConfig = {
-    apiKey: "AIzaSyAuZJuo2xQ0lcwycZGAKsqEjatkTPizi6U",
-    authDomain: "rastessreviews.firebaseapp.com",
-    projectId: "rastessreviews",
-    storageBucket: "rastessreviews.firebasestorage.app",
-    messagingSenderId: "520535485402",
-    appId: "1:520535485402:web:37cddbbeb541f942922ee3",
-    measurementId: "G-9LKHYFMRSN"
-  };
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            line-height: 1.6;
+        }
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+        /* --- ШАПКА --- */
+        .hero {
+            position: relative;
+            height: 450px;
+            background: linear-gradient(to bottom, rgba(11, 12, 15, 0) 0%, rgba(11, 12, 15, 1) 100%),
+                        url('https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10%;
+        }
 
-  // Элементы интерфейса
-  const reviewList = document.getElementById('reviews-list');
-  const authBtn = document.getElementById('auth-btn');
-  const reviewForm = document.getElementById('review-form');
-  let currentUser = null;
+        .hero-content { padding-bottom: 40px; width: 100%; }
+        h1 { font-size: 48px; margin: 0; }
+        
+        .buy-panel {
+            display: flex; align-items: center; gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 20px; border-radius: 12px; margin-top: 20px;
+        }
 
-  // Твоя почта (чтобы у тебя была кнопка УДАЛИТЬ под всеми отзывами)
-  const adminEmail = "ТВОЯ_ПОЧТА@gmail.com"; 
+        .btn-buy {
+            background: var(--accent-blue); color: white;
+            padding: 12px 40px; border-radius: 8px;
+            text-decoration: none; font-weight: 700; transition: 0.3s;
+        }
 
-  // Вход / Выход
-  authBtn.onclick = () => {
-    if (!currentUser) {
-      signInWithPopup(auth, provider).catch(err => alert("Ошибка входа: " + err.message));
-    } else {
-      signOut(auth);
-    }
-  };
+        /* --- СЕТКА --- */
+        .main-grid {
+            display: grid; grid-template-columns: 2fr 1fr;
+            gap: 30px; margin: 40px 10%;
+        }
 
-  onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-    authBtn.innerText = user ? `Выйти (${user.displayName})` : "+ Оценить игру";
-    reviewForm.style.display = user ? "block" : "none";
-  });
+        .side-card {
+            background: var(--card-bg); border-radius: 16px;
+            padding: 25px; border: 1px solid var(--line); margin-bottom: 20px;
+        }
 
-  // Отправка отзыва
-  window.submitReview = async () => {
-    const text = document.getElementById('rev-text').value;
-    const stars = document.getElementById('rev-stars').value;
-    
-    if (!text.trim()) return alert("Напишите текст отзыва");
+        /* --- ОТЗЫВЫ (Firebase) --- */
+        .reviews-section { margin: 60px 10%; }
+        #review-form { 
+            background: var(--card-bg); padding: 25px; border-radius: 16px; 
+            margin-bottom: 30px; border: 1px solid var(--line); 
+        }
+        #rev-text { 
+            width: 100%; background: #0b0c0f; border: 1px solid var(--line); 
+            color: white; padding: 15px; border-radius: 12px; margin: 10px 0; 
+            box-sizing: border-box; resize: vertical;
+        }
+        .btn-send { 
+            background: var(--accent-blue); color: white; border: none; 
+            padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; 
+        }
+        .review-card {
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            margin-bottom: 15px; border: 1px solid var(--line);
+        }
+        .rev-header { display: flex; justify-content: space-between; align-items: center; }
+        .stars { color: #fbbf24; letter-spacing: 2px; }
 
-    try {
-      await addDoc(collection(db, "reviews"), {
-        uid: currentUser.uid,
-        name: currentUser.displayName,
-        text: text,
-        stars: parseInt(stars),
-        time: serverTimestamp()
-      });
-      document.getElementById('rev-text').value = "";
-    } catch (e) {
-      alert("Ошибка базы данных. Проверь вкладку Rules в Firebase!");
-    }
-  };
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .hero, .main-grid, .reviews-section { margin-left: 5%; margin-right: 5%; }
+        }
+    </style>
+</head>
+<body>
 
-  // Удаление отзыва
-  window.deleteReview = async (id) => {
-    if (confirm("Удалить этот отзыв?")) {
-      await deleteDoc(doc(db, "reviews", id));
-    }
-  };
-
-  // Загрузка отзывов в реальном времени
-  const q = query(collection(db, "reviews"), orderBy("time", "desc"));
-  onSnapshot(q, (snapshot) => {
-    reviewList.innerHTML = "";
-    snapshot.forEach((res) => {
-      const data = res.data();
-      // Ты можешь удалять чужие, а игроки - только свои
-      const canDelete = currentUser && (currentUser.uid === data.uid || currentUser.email === adminEmail);
-      
-      reviewList.innerHTML += `
-        <div class="review-card" style="background: #16191e; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #2a2e35;">
-          <div style="display:flex; justify-content: space-between;">
-            <span style="font-weight:700;">${data.name}</span>
-            <span style="color: #fbbf24;">${"★".repeat(data.stars)}${"☆".repeat(5-data.stars)}</span>
-          </div>
-          <p style="font-size:14px; color: #9ca3af; margin: 10px 0;">${data.text}</p>
-          ${canDelete ? `<button onclick="deleteReview('${res.id}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:12px; padding:0;">Удалить отзыв</button>` : ""}
+    <header class="hero">
+        <div class="hero-content">
+            <span style="background: var(--accent-blue); padding: 4px 12px; border-radius: 6px; font-size: 12px;">ДОСТУПНО</span>
+            <h1>RASTESS</h1>
+            <div class="buy-panel">
+                <div style="font-size: 24px; font-weight: 700;">Бесплатно</div>
+                <a href="https://shintrix.itch.io/rastess" target="_blank" class="btn-buy">Играть сейчас</a>
+            </div>
         </div>
-      `;
-    });
-  });
-</script>
+    </header>
 
-<!-- Стили для формы -->
-<style>
-    #review-form { background: #16191e; padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #2a2e35; }
-    #rev-text { width: 100%; background: #0b0c0f; border: 1px solid #2a2e35; color: white; padding: 10px; border-radius: 8px; margin: 10px 0; box-sizing: border-box; }
-    .btn-send { background: #007aff; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    .btn-send:hover { background: #0056b3; }
-</style>
-
-<!-- Секция отзывов на странице -->
-<div class="reviews-section" style="margin: 60px 10%;">
-    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2>Отзывы игроков</h2>
-        <button id="auth-btn" style="background: none; border: 1px solid #2a2e35; color: white; padding: 10px; border-radius: 8px; cursor: pointer;">
-            Загрузка...
-        </button>
-    </div>
-
-    <div id="review-form" style="display:none;">
-        <div style="font-size: 14px; color: #9ca3af;">
-            Ваша оценка: 
-            <select id="rev-stars" style="background: #0b0c0f; color: white; border: 1px solid #2a2e35; padding: 5px; border-radius: 4px;">
-                <option value="5">5 звезд (Отлично)</option>
-                <option value="4">4 звезды (Хорошо)</option>
-                <option value="3">3 звезды (Средне)</option>
-                <option value="2">2 звезды (Плохо)</option>
-                <option value="1">1 звезда (Ужасно)</option>
-            </select>
+    <div class="main-grid">
+        <div class="content-left">
+            <div style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);">
+                <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h2>Описание</h2>
+            <p style="color: var(--text-gray);">
+                Погрузитесь в атмосферу заброшенного поселка Растесс. 
+                Торфяники горят неделями, туман скрывает правду, а прошлое отказывается умирать.
+            </p>
         </div>
-        <textarea id="rev-text" rows="3" placeholder="Что вы думаете о RASTESS?"></textarea>
-        <button class="btn-send" onclick="submitReview()">Опубликовать отзыв</button>
+
+        <div class="content-right">
+            <div class="side-card">
+                <div style="font-size: 32px; font-weight: 800; color: #4ade80;">9.0</div>
+                <div style="font-weight: 700;">Оценка игроков</div>
+                <button id="auth-btn" style="width: 100%; margin-top: 15px; background: none; border: 1px solid var(--line); color: white; padding: 10px; border-radius: 8px; cursor: pointer;">
+                    + Оценить игру
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div id="reviews-list">
-        <p style="color: #444;">Загрузка отзывов...</p>
+    <!-- СЕКЦИЯ ОТЗЫВОВ -->
+    <div class="reviews-section">
+        <h2>Отзывы сообщества</h2>
+
+        <div id="review-form" style="display:none;">
+            <div style="margin-bottom: 10px;">
+                Ваша оценка: 
+                <select id="rev-stars" style="background: #0b0c0f; color: white; border: 1px solid var(--line); padding: 5px; border-radius: 4px;">
+                    <option value="5">★★★★★ (5)</option>
+                    <option value="4">★★★★☆ (4)</option>
+                    <option value="3">★★★☆☆ (3)</option>
+                    <option value="2">★★☆☆☆ (2)</option>
+                    <option value="1">★☆☆☆☆ (1)</option>
+                </select>
+            </div>
+            <textarea id="rev-text" placeholder="Поделитесь вашим мнением..."></textarea>
+            <button class="btn-send" onclick="submitReview()">Опубликовать</button>
+        </div>
+
+        <div id="reviews-list">
+            <p style="color: var(--text-gray);">Загрузка отзывов...</p>
+        </div>
     </div>
-</div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAuZJuo2xQ0lcwycZGAKsqEjatkTPizi6U",
+            authDomain: "rastessreviews.firebaseapp.com",
+            projectId: "rastessreviews",
+            storageBucket: "rastessreviews.firebasestorage.app",
+            messagingSenderId: "520535485402",
+            appId: "1:520535485402:web:37cddbbeb541f942922ee3",
+            measurementId: "G-9LKHYFMRSN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const reviewList = document.getElementById('reviews-list');
+        const authBtn = document.getElementById('auth-btn');
+        const reviewForm = document.getElementById('review-form');
+        
+        let currentUser = null;
+        const adminEmail = "ТВОЯ_ПОЧТА@gmail.com"; // Впиши свою почту
+
+        authBtn.onclick = () => {
+            if (!currentUser) signInWithPopup(auth, provider);
+            else signOut(auth);
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            authBtn.innerText = user ? `Выйти (${user.displayName})` : "+ Оценить игру";
+            reviewForm.style.display = user ? "block" : "none";
+        });
+
+        window.submitReview = async () => {
+            const text = document.getElementById('rev-text').value;
+            const stars = document.getElementById('rev-stars').value;
+            if (!text.trim()) return alert("Введите текст");
+            await addDoc(collection(db, "reviews"), {
+                uid: currentUser.uid,
+                name: currentUser.displayName,
+                text: text,
+                stars: parseInt(stars),
+                time: serverTimestamp()
+            });
+            document.getElementById('rev-text').value = "";
+        };
+
+        window.deleteReview = async (id) => {
+            if (confirm("Удалить отзыв?")) await deleteDoc(doc(db, "reviews", id));
+        };
+
+        const q = query(collection(db, "reviews"), orderBy("time", "desc"));
+        onSnapshot(q, (snapshot) => {
+            reviewList.innerHTML = "";
+            snapshot.forEach((res) => {
+                const data = res.data();
+                const canDelete = currentUser && (currentUser.uid === data.uid || currentUser.email === adminEmail);
+                reviewList.innerHTML += `
+                    <div class="review-card">
+                        <div class="rev-header">
+                            <span style="font-weight:700;">${data.name}</span>
+                            <span class="stars">${"★".repeat(data.stars)}${"☆".repeat(5-data.stars)}</span>
+                        </div>
+                        <p style="font-size:14px; color: var(--text-gray); margin: 10px 0;">${data.text}</p>
+                        ${canDelete ? `<button onclick="deleteReview('${res.id}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:12px; padding:0;">Удалить</button>` : ""}
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
