@@ -15,166 +15,118 @@
             --line: #2a2e35;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: white;
-            line-height: 1.6;
-        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: white; line-height: 1.6; }
 
-        /* --- ШАПКА (HERO) --- */
+        /* --- ШАПКА --- */
         .hero {
-            position: relative;
-            height: 500px;
+            height: 450px;
             background: linear-gradient(to bottom, rgba(11, 12, 15, 0) 0%, rgba(11, 12, 15, 1) 100%),
                         url('https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 10%;
+            background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 0 10%;
         }
-
         .hero-content { padding-bottom: 40px; width: 100%; }
-        .tag-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tag { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 6px; font-size: 12px; text-transform: uppercase; }
-        .tag-blue { background: var(--accent-blue); }
-        h1 { font-size: 48px; margin: 0 0 10px 0; letter-spacing: -1px; }
-
-        .buy-panel {
-            display: flex; align-items: center; gap: 20px;
-            background: rgba(255,255,255,0.05); padding: 20px;
-            border-radius: 12px; backdrop-filter: blur(10px); margin-top: 20px;
-        }
-        .btn-buy {
-            background: var(--accent-blue); color: white; padding: 12px 40px;
-            border-radius: 8px; text-decoration: none; font-weight: 700; transition: 0.3s;
-        }
+        h1 { font-size: 48px; margin: 0; }
+        .buy-panel { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .btn-buy { background: var(--accent-blue); color: white; padding: 12px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: 0.3s; }
+        
+        /* Избранное */
+        .fav-btn { cursor: pointer; font-size: 24px; transition: 0.3s; color: var(--text-gray); }
+        .fav-btn.active { color: #ff3b30; }
 
         /* --- НАВИГАЦИЯ --- */
-        .game-nav {
-            display: flex; gap: 30px; border-bottom: 1px solid var(--line);
-            margin: 0 10%; padding: 20px 0;
-        }
-        .nav-item { color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 14px; }
+        .game-nav { display: flex; gap: 30px; border-bottom: 1px solid var(--line); margin: 0 10%; padding: 20px 0; }
+        .nav-item { color: var(--text-gray); text-decoration: none; font-weight: 600; font-size: 14px; cursor: pointer; }
         .nav-item.active { color: white; border-bottom: 2px solid white; padding-bottom: 20px; }
 
         /* --- СЕТКА --- */
-        .main-grid {
-            display: grid; grid-template-columns: 2fr 1fr;
-            gap: 30px; margin: 40px 10%;
-        }
-
-        .media-main { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
-        .media-main img { width: 100%; height: 100%; object-fit: cover; }
-
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin: 40px 10%; }
         .side-card { background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid var(--line); margin-bottom: 20px; }
-        
-        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        .info-label { color: var(--text-gray); }
+
+        /* --- ИНТЕРАКТИВНЫЕ ЗВЕЗДЫ --- */
+        .star-rating { display: flex; gap: 5px; font-size: 30px; cursor: pointer; margin: 10px 0; }
+        .star-rating span { color: #444; transition: 0.2s; }
+        .star-rating span.hover, .star-rating span.selected { color: #fbbf24; }
 
         /* --- ОТЗЫВЫ --- */
-        .reviews-section { margin: 60px 10%; }
-        #review-form { background: var(--card-bg); padding: 25px; border-radius: 16px; border: 1px solid var(--line); margin-bottom: 30px; }
-        #rev-text { width: 100%; background: #0b0c0f; border: 1px solid var(--line); color: white; padding: 15px; border-radius: 12px; margin: 10px 0; box-sizing: border-box; }
-        .btn-send { background: var(--accent-blue); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .reviews-section, #favorites-section { margin: 60px 10%; display: block; }
+        #favorites-section { display: none; } /* Скрыто по умолчанию */
         
         .review-card { background: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--line); }
         .rev-header { display: flex; justify-content: space-between; align-items: center; }
-        .stars { color: #fbbf24; }
+        .stars-display { color: #fbbf24; }
 
-        @media (max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .hero, .game-nav, .main-grid, .reviews-section { margin-left: 5%; margin-right: 5%; }
-        }
+        textarea { width: 100%; background: #0b0c0f; border: 1px solid var(--line); color: white; padding: 15px; border-radius: 12px; margin: 10px 0; box-sizing: border-box; font-family: inherit; }
+        .btn-send { background: var(--accent-blue); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } .hero, .main-grid, .reviews-section { margin-left: 5%; margin-right: 5%; } }
     </style>
 </head>
 <body>
 
     <header class="hero">
         <div class="hero-content">
-            <div class="tag-row">
-                <div class="tag tag-blue">Доступно</div>
-                <div class="tag">Хоррор</div>
-            </div>
+            <span style="background: var(--accent-blue); padding: 4px 12px; border-radius: 6px; font-size: 12px;">ДОСТУПНО</span>
             <h1>RASTESS</h1>
             <div class="buy-panel">
                 <div style="font-size: 24px; font-weight: 700;">Бесплатно</div>
                 <a href="https://shintrix.itch.io/rastess" target="_blank" class="btn-buy">Играть сейчас</a>
-                <i class="far fa-bookmark" style="font-size: 20px; cursor: pointer;"></i>
+                <i id="favorite-icon" class="fa-solid fa-heart fav-btn" title="Добавить в избранное" onclick="toggleFavorite()"></i>
             </div>
         </div>
     </header>
 
     <nav class="game-nav">
-        <a href="#" class="nav-item active">Об игре</a>
-        <a href="#" class="nav-item">Требования</a>
-        <a href="#" class="nav-item">Отзывы</a>
+        <a id="nav-main" class="nav-item active" onclick="showTab('main')">Об игре</a>
+        <a id="nav-favs" class="nav-item" onclick="showTab('favs')">Избранное</a>
     </nav>
 
-    <div class="main-grid">
-        <div class="content-left">
-            <div class="media-main">
-                <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" alt="Скриншот">
+    <!-- ОСНОВНАЯ ВКЛАДКА -->
+    <div id="main-content">
+        <div class="main-grid">
+            <div class="content-left">
+                <div style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);">
+                    <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <h2>Описание</h2>
+                <p style="color: var(--text-gray);">Погрузитесь в атмосферу заброшенного поселка Растесс. Торфяники горят неделями, туман скрывает правду, а прошлое отказывается умирать.</p>
             </div>
-            <h2>Об игре</h2>
-            <p style="color: var(--text-gray);">
-                Погрузитесь в атмосферу заброшенного поселка Растесс. 
-                Торфяники горят неделями, туман скрывает правду, а прошлое отказывается умирать.
-            </p>
 
-            <div class="side-card" style="margin-top: 30px;">
-                <h3>Системные требования</h3>
-                <div class="info-row"><span class="info-label">ОС</span><span>Windows 7/10/11</span></div>
-                <div class="info-row"><span class="info-label">Процессор</span><span>Intel Core i3</span></div>
-                <div class="info-row"><span class="info-label">Память</span><span>4 GB RAM</span></div>
+            <div class="content-right">
+                <div class="side-card">
+                    <div id="average-rating" style="font-size: 32px; font-weight: 800; color: #4ade80;">...</div>
+                    <div style="font-weight: 700;">Оценка игроков</div>
+                    <button id="auth-btn" style="width: 100%; margin-top: 15px; background: none; border: 1px solid var(--line); color: white; padding: 10px; border-radius: 8px; cursor: pointer;">
+                        Вход для оценки
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="content-right">
-            <div class="side-card">
-                <div style="font-size: 32px; font-weight: 800; color: #4ade80;">9.0</div>
-                <div style="font-weight: 700; font-size: 18px;">Оценка игроков</div>
-                <button id="auth-btn" style="width: 100%; background: none; border: 1px solid var(--line); color: white; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 15px;">
-                    + Оценить игру
-                </button>
+        <div class="reviews-section">
+            <h2>Отзывы сообщества</h2>
+            <div id="review-form-container" style="display:none;" class="side-card">
+                <h3 id="form-title">Оставить отзыв</h3>
+                <div class="star-rating" id="star-input">
+                    <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+                </div>
+                <textarea id="rev-text" rows="3" placeholder="Расскажите о своих впечатлениях..."></textarea>
+                <button class="btn-send" onclick="submitReview()">Опубликовать</button>
             </div>
-            
-            <div class="side-card">
-                <div class="info-row"><span class="info-label">Разработчик</span><span>Shintrix</span></div>
-                <div class="info-row"><span class="info-label">Дата выхода</span><span>24 авг. 2026</span></div>
-            </div>
+            <div id="reviews-list"></div>
         </div>
     </div>
 
-    <!-- ОТЗЫВЫ -->
-    <div class="reviews-section">
-        <h2>Отзывы сообщества</h2>
-
-        <div id="review-form" style="display:none;">
-            <div style="margin-bottom: 10px;">
-                Ваша оценка: 
-                <select id="rev-stars" style="background: #0b0c0f; color: white; border: 1px solid var(--line); padding: 5px; border-radius: 4px;">
-                    <option value="5">★★★★★ (5)</option>
-                    <option value="4">★★★★☆ (4)</option>
-                    <option value="3">★★★☆☆ (3)</option>
-                    <option value="2">★★☆☆☆ (2)</option>
-                    <option value="1">★☆☆☆☆ (1)</option>
-                </select>
-            </div>
-            <textarea id="rev-text" rows="3" placeholder="Напишите ваш отзыв здесь..."></textarea>
-            <button class="btn-send" onclick="submitReview()">Опубликовать</button>
-        </div>
-
-        <div id="reviews-list">
-            <p style="color: var(--text-gray);">Загрузка отзывов...</p>
+    <!-- ВКЛАДКА ИЗБРАННОЕ -->
+    <div id="favorites-section">
+        <h2>Ваши избранные игры</h2>
+        <div id="favs-list">
+            <p style="color: var(--text-gray);">Здесь пока пусто. Нажмите на сердце на странице игры!</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -192,67 +144,125 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        const reviewList = document.getElementById('reviews-list');
-        const authBtn = document.getElementById('auth-btn');
-        const reviewForm = document.getElementById('review-form');
-        
         let currentUser = null;
+        let userReviewId = null;
+        let selectedStars = 0;
         const adminEmail = "ТВОЯ_ПОЧТА@gmail.com"; 
 
-        authBtn.onclick = async () => {
-            if (!currentUser) {
-                try {
-                    await signInWithPopup(auth, provider);
-                } catch (e) {
-                    alert("Окно входа было закрыто или заблокировано браузером.");
-                }
-            } else {
-                signOut(auth);
-            }
+        // --- ВКЛАДКИ ---
+        window.showTab = (tab) => {
+            document.getElementById('main-content').style.display = tab === 'main' ? 'block' : 'none';
+            document.getElementById('favorites-section').style.display = tab === 'favs' ? 'block' : 'none';
+            document.getElementById('nav-main').classList.toggle('active', tab === 'main');
+            document.getElementById('nav-favs').classList.toggle('active', tab === 'favs');
+            if(tab === 'favs') loadFavorites();
         };
+
+        // --- АВТОРИЗАЦИЯ ---
+        const authBtn = document.getElementById('auth-btn');
+        authBtn.onclick = () => currentUser ? signOut(auth) : signInWithPopup(auth, provider);
 
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
-            authBtn.innerText = user ? `Выйти (${user.displayName})` : "+ Оценить игру";
-            reviewForm.style.display = user ? "block" : "none";
+            authBtn.innerText = user ? `Выйти (${user.displayName.split(' ')[0]})` : "+ Оценить игру";
+            document.getElementById('review-form-container').style.display = user ? 'block' : 'none';
+            if(user) checkUserReview();
+            updateFavoriteUI();
         });
+
+        // --- ЛОГИКА ЗВЕЗД ---
+        const starSpans = document.querySelectorAll('#star-input span');
+        starSpans.forEach(s => {
+            s.onmouseenter = () => {
+                const val = s.dataset.v;
+                starSpans.forEach(st => st.classList.toggle('hover', st.dataset.v <= val));
+            };
+            s.onclick = () => {
+                selectedStars = s.dataset.v;
+                starSpans.forEach(st => st.classList.toggle('selected', st.dataset.v <= selectedStars));
+            };
+        });
+        document.getElementById('star-input').onmouseleave = () => starSpans.forEach(st => st.classList.remove('hover'));
+
+        // --- ИЗБРАННОЕ ---
+        window.toggleFavorite = async () => {
+            if(!currentUser) return alert("Войдите в профиль");
+            const favRef = doc(db, "favorites", currentUser.uid + "_rastess");
+            const snap = await getDoc(favRef);
+            if(snap.exists()) {
+                await deleteDoc(favRef);
+            } else {
+                await setDoc(favRef, { game: "RASTESS", time: serverTimestamp() });
+            }
+            updateFavoriteUI();
+        };
+
+        async function updateFavoriteUI() {
+            if(!currentUser) return;
+            const snap = await getDoc(doc(db, "favorites", currentUser.uid + "_rastess"));
+            document.getElementById('favorite-icon').classList.toggle('active', snap.exists());
+        }
+
+        function loadFavorites() {
+            const list = document.getElementById('favs-list');
+            if(!currentUser) { list.innerHTML = "Войдите, чтобы увидеть избранное"; return; }
+            onSnapshot(doc(db, "favorites", currentUser.uid + "_rastess"), (snap) => {
+                list.innerHTML = snap.exists() ? 
+                `<div class="review-card"><h3>RASTESS</h3><p>Визуальная новелла / Хоррор</p></div>` : 
+                "Список пуст";
+            });
+        }
+
+        // --- ОТЗЫВЫ ---
+        async function checkUserReview() {
+            onSnapshot(query(collection(db, "reviews")), (snap) => {
+                const myRev = snap.docs.find(d => d.data().uid === currentUser.uid);
+                if(myRev) {
+                    userReviewId = myRev.id;
+                    document.getElementById('rev-text').value = myRev.data().text;
+                    selectedStars = myRev.data().stars;
+                    starSpans.forEach(st => st.classList.toggle('selected', st.dataset.v <= selectedStars));
+                    document.getElementById('form-title').innerText = "Редактировать ваш отзыв";
+                }
+            });
+        }
 
         window.submitReview = async () => {
             const text = document.getElementById('rev-text').value;
-            const stars = document.getElementById('rev-stars').value;
-            if (!text.trim()) return alert("Напишите текст отзыва");
+            if(!text || selectedStars === 0) return alert("Выберите звезды и напишите текст");
+            const data = { uid: currentUser.uid, name: currentUser.displayName, text, stars: parseInt(selectedStars), time: serverTimestamp() };
             
-            await addDoc(collection(db, "reviews"), {
-                uid: currentUser.uid,
-                name: currentUser.displayName,
-                text: text,
-                stars: parseInt(stars),
-                time: serverTimestamp()
-            });
-            document.getElementById('rev-text').value = "";
+            if(userReviewId) {
+                await updateDoc(doc(db, "reviews", userReviewId), data);
+            } else {
+                await addDoc(collection(db, "reviews"), data);
+            }
+            alert("Сохранено!");
         };
 
-        window.deleteReview = async (id) => {
-            if (confirm("Удалить отзыв?")) await deleteDoc(doc(db, "reviews", id));
-        };
+        window.deleteReview = async (id) => { if(confirm("Удалить?")) await deleteDoc(doc(db, "reviews", id)); };
 
-        const q = query(collection(db, "reviews"), orderBy("time", "desc"));
-        onSnapshot(q, (snapshot) => {
-            reviewList.innerHTML = "";
-            snapshot.forEach((res) => {
-                const data = res.data();
+        // Загрузка и средний балл
+        onSnapshot(query(collection(db, "reviews"), orderBy("time", "desc")), (snap) => {
+            const list = document.getElementById('reviews-list');
+            list.innerHTML = "";
+            let totalStars = 0;
+            snap.forEach(d => {
+                const data = d.data();
+                totalStars += data.stars;
                 const canDelete = currentUser && (currentUser.uid === data.uid || currentUser.email === adminEmail);
-                reviewList.innerHTML += `
+                list.innerHTML += `
                     <div class="review-card">
                         <div class="rev-header">
-                            <span style="font-weight:700;">${data.name}</span>
-                            <span class="stars">${"★".repeat(data.stars)}${"☆".repeat(5-data.stars)}</span>
+                            <b>${data.name}</b>
+                            <span class="stars-display">${"★".repeat(data.stars)}</span>
                         </div>
-                        <p style="font-size:14px; color: var(--text-gray); margin: 10px 0;">${data.text}</p>
-                        ${canDelete ? `<button onclick="deleteReview('${res.id}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:12px; padding:0;">Удалить</button>` : ""}
-                    </div>
-                `;
+                        <p>${data.text}</p>
+                        ${canDelete ? `<button onclick="deleteReview('${d.id}')" style="color:red; background:none; border:none; cursor:pointer;">Удалить</button>` : ""}
+                    </div>`;
             });
+            const avg = snap.size > 0 ? (totalStars / snap.size).toFixed(1) : "0.0";
+            document.getElementById('average-rating').innerText = avg;
         });
     </script>
 </body>
