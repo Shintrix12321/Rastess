@@ -13,11 +13,13 @@
             --vk-accent: #007aff;
             --vk-text: #9ca3af;
             --vk-line: #2a2e35;
-            --steam-blue: #1b2838;
-            --steam-grad: linear-gradient(90deg, #2a475e 0%, #1b2838 100%);
+            --st-bg: #171a21;
+            --st-nav: #212429;
+            --st-blue: #57cbde;
+            --st-btn: #4e697d;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--vk-bg); color: white; line-height: 1.5; overflow-x: hidden; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--vk-bg); color: white; overflow-x: hidden; }
 
         /* --- ВЕРХНЯЯ ПАНЕЛЬ --- */
         .header-top {
@@ -25,180 +27,183 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 10%; border-bottom: 1px solid var(--vk-line); position: sticky; top: 0; z-index: 1000;
         }
-        .user-block { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-        .user-block img { width: 32px; height: 32px; border-radius: 4px; border: 1px solid var(--vk-accent); }
+        .user-block { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 5px 10px; border-radius: 4px; }
+        .user-block:hover { background: rgba(255,255,255,0.05); }
+        .user-block img { width: 32px; height: 32px; border-radius: 2px; border: 1px solid var(--vk-accent); }
 
-        /* --- ГЕЙМ-ПЕЙДЖ (VK PLAY STYLE) --- */
+        /* --- ГЛАВНАЯ СТРАНИЦА (VK PLAY STYLE) --- */
         .hero {
             height: 480px; position: relative;
             background: linear-gradient(to bottom, rgba(11,12,15,0) 0%, rgba(11,12,15,1) 100%),
                         url('https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png');
             background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 0 10% 50px;
         }
-        .hero h1 { font-size: 48px; font-weight: 800; margin: 0 0 15px; letter-spacing: -1px; }
-        .buy-card { 
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(15px); border-radius: 12px;
-            padding: 20px 30px; display: flex; align-items: center; gap: 25px; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-vk { background: var(--vk-accent); color: white; padding: 12px 35px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: 0.2s; }
-        .btn-vk:hover { filter: brightness(1.2); }
+        .buy-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(15px); border-radius: 12px; padding: 20px 30px; display: flex; align-items: center; gap: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-vk { background: var(--vk-accent); color: white; padding: 12px 35px; border-radius: 8px; text-decoration: none; font-weight: 700; cursor: pointer; border:none; font-family: inherit; }
 
         .main-container { display: grid; grid-template-columns: 2.2fr 1fr; gap: 30px; margin: 40px 10%; }
-
-        /* Скриншоты (FIXED) */
-        .media-box { width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--vk-line); background: #000; aspect-ratio: 16/9; }
-        .media-box img { width: 100%; height: 100%; object-fit: cover; }
-
         .content-box { background: var(--vk-card); border-radius: 16px; padding: 30px; border: 1px solid var(--vk-line); margin-bottom: 25px; }
         .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        .info-label { color: var(--vk-text); }
 
-        /* --- ОТЗЫВЫ --- */
-        .review-item { background: var(--vk-card); border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--vk-line); }
-        .author-info { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .author-info:hover b { color: var(--vk-accent); }
-        .author-info img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
-        .star-box { color: #fbbf24; font-size: 14px; margin-top: 5px; }
-
-        /* --- STEAM PROFILE MODAL --- */
-        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; overflow-y: auto; padding: 40px 0; }
-        .steam-shell { max-width: 940px; margin: 0 auto; background: #171a21; border-radius: 4px; border: 1px solid #000; position: relative; color: #acb2b8; }
-        .steam-header { background: var(--steam-grad); padding: 40px; display: flex; gap: 30px; }
-        .steam-avatar-wrap { position: relative; width: 164px; height: 164px; background: linear-gradient(to bottom, #3a3a3a, #1b1b1b); padding: 2px; }
-        .steam-avatar-wrap img { width: 160px; height: 164px; border-radius: 0; object-fit: cover; }
-        .steam-main-info { flex-grow: 1; }
-        .steam-name { font-size: 34px; color: white; font-weight: 200; margin: 0 0 10px; }
-        .steam-status { font-size: 14px; color: #57cbde; } /* Online color */
+        /* --- STEAM MODAL (1 в 1) --- */
+        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto; }
         
-        .steam-right-col { width: 280px; padding: 40px 20px; background: rgba(0,0,0,0.2); }
-        .steam-level-circle { width: 40px; height: 40px; border: 2px solid #4e697d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; }
-
-        .steam-body { display: grid; grid-template-columns: 1fr 280px; }
-        .steam-left-content { padding: 30px; }
+        .steam-window { max-width: 940px; margin: 40px auto; background: #1b2838; border: 1px solid #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative; }
         
-        .edit-input { width: 100%; background: #222; border: 1px solid #444; color: white; padding: 10px; margin: 10px 0; border-radius: 3px; }
-        .btn-steam { background: #4e697d; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 2px; }
-        .btn-steam:hover { background: #6785a3; }
+        /* Вид профиля */
+        .st-view-header { background: linear-gradient(90deg, #2a475e 0%, #1b2838 100%); padding: 40px; display: flex; gap: 30px; }
+        .st-avatar-frame { width: 164px; height: 164px; background: linear-gradient(to bottom, #3a3a3a, #1b1b1b); padding: 2px; }
+        .st-avatar-frame img { width: 160px; height: 160px; object-fit: cover; }
+        .st-header-info { flex-grow: 1; }
+        .st-name { font-size: 34px; color: white; font-weight: 200; margin: 0; }
+        .st-online { color: var(--st-blue); font-size: 14px; margin-top: 5px; }
+        
+        .st-level-box { text-align: right; }
+        .st-level-circle { width: 40px; height: 40px; border: 2px solid #4e697d; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
 
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; }
+        .st-view-body { display: grid; grid-template-columns: 1fr 280px; }
+        .st-left-col { padding: 30px; }
+        .st-right-col { padding: 30px; background: rgba(0,0,0,0.2); }
 
-        /* --- STARS RATING --- */
-        .rating-input { display: flex; gap: 5px; font-size: 30px; cursor: pointer; margin: 15px 0; }
-        .rating-input span { color: #333; }
-        .rating-input span.active { color: #fbbf24; }
+        /* Редактирование профиля (Фото 3) */
+        #st-edit-mode { display: none; }
+        .st-edit-container { display: grid; grid-template-columns: 240px 1fr; background: #171a21; min-height: 600px; }
+        .st-edit-nav { background: #212429; padding: 20px 0; }
+        .st-nav-item { padding: 12px 25px; color: #afafaf; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; }
+        .st-nav-item.active { background: #3d4450; color: white; border-left-color: var(--st-blue); }
+        .st-edit-main { padding: 40px; }
+        
+        .st-input-group { margin-bottom: 25px; }
+        .st-label { color: #8f98a0; font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .st-input { width: 100%; background: #2a2e33; border: 1px solid #000; color: white; padding: 10px; border-radius: 3px; box-sizing: border-box; }
+        .st-textarea { width: 100%; background: #2a2e33; border: 1px solid #000; color: white; padding: 10px; border-radius: 3px; height: 100px; resize: none; }
 
-        @media (max-width: 1000px) { .main-container, .steam-body { grid-template-columns: 1fr; } .steam-right-col { width: auto; } }
+        .btn-st-blue { background: linear-gradient( to bottom, #63b5e4 5%, #2483b3 95%); color: white; border: none; padding: 10px 30px; border-radius: 2px; cursor: pointer; }
+        
+        .close-st { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #acb2b8; }
     </style>
 </head>
 <body>
 
+    <!-- TOP NAV -->
     <div class="header-top">
         <div style="font-weight: 900; letter-spacing: 2px; color: var(--vk-accent);">RASTESS</div>
-        <div id="auth-area">
+        <div id="auth-section">
             <button class="btn-vk" style="padding: 8px 20px;" onclick="login()">Войти</button>
         </div>
-        <div id="user-area" style="display: none;" class="user-block" onclick="openProfile('me')">
-            <span id="nav-username" style="font-weight: 600;"></span>
-            <img id="nav-avatar" src="" alt="">
+        <div id="user-section" style="display: none;" class="user-block" onclick="openProfile('me')">
+            <span id="nav-name"></span>
+            <img id="nav-img" src="" alt="">
         </div>
     </div>
 
-    <div id="page-content">
+    <!-- MAIN PAGE -->
+    <div id="game-page">
         <header class="hero">
             <div class="hero-content">
-                <div style="display:flex; gap:10px; margin-bottom:15px;">
-                    <span style="background:var(--vk-accent); padding:2px 10px; border-radius:4px; font-size:11px; font-weight:bold;">ДОПОЛНЕНИЕ</span>
-                </div>
                 <h1>RASTESS</h1>
                 <div class="buy-card">
                     <div style="font-size: 24px; font-weight: 800;">Бесплатно</div>
-                    <a href="https://shintrix.itch.io/rastess" target="_blank" class="btn-vk">Играть сейчас</a>
-                    <i id="heart-icon" class="fa-regular fa-heart" style="font-size: 22px; cursor: pointer;" onclick="toggleFav()"></i>
+                    <button class="btn-vk" onclick="document.getElementById('reviews-anchor').scrollIntoView({behavior:'smooth'})">Оценить игру</button>
+                    <i id="heart-btn" class="fa-regular fa-heart" style="font-size: 22px; cursor: pointer;" onclick="toggleFavorite()"></i>
                 </div>
             </div>
         </header>
 
         <div class="main-container">
             <div class="left-col">
-                <div class="media-box">
-                    <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" alt="Screenshot">
-                </div>
-                
-                <h2>Основная информация</h2>
                 <div class="content-box">
-                    <p style="color: var(--vk-text);">Торфяники Растесса горят уже третью неделю. Дым скрывает не только дорогу, но и тех, кто остался в поселке. Вы — Матвей, и вы вернулись домой, чтобы найти отца. Но Растесс больше не принадлежит людям.</p>
-                    
-                    <h3 style="margin-top:40px;">Системные требования</h3>
-                    <div class="info-row"><span class="info-label">ОС</span> <span>Windows 10/11 (64-bit)</span></div>
-                    <div class="info-row"><span class="info-label">Процессор</span> <span>Intel Core i3 / AMD Ryzen 3</span></div>
-                    <div class="info-row"><span class="info-label">Видеокарта</span> <span>NVIDIA GTX 1050 / AMD RX 560</span></div>
+                    <h2>О проекте</h2>
+                    <p style="color:var(--vk-text)">Заброшенный поселок Растесс. Дым торфяников. Ваша история начинается здесь.</p>
+                    <h3 style="margin-top:30px">Системные требования</h3>
+                    <div class="info-row"><span>ОС</span> <span>Windows 10/11</span></div>
+                    <div class="info-row"><span>Процессор</span> <span>Intel Core i3</span></div>
+                </div>
+                <div id="reviews-anchor">
+                    <h2>Отзывы</h2>
+                    <div id="review-editor" class="content-box" style="display:none">
+                        <div id="star-input" style="font-size:30px; cursor:pointer; margin-bottom:15px; color:#333;">
+                            <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+                        </div>
+                        <textarea id="rev-text" class="st-textarea" style="background:#0b0c0f" placeholder="Ваш отзыв..."></textarea>
+                        <button class="btn-vk" style="margin-top:15px" onclick="sendReview()">Опубликовать</button>
+                    </div>
+                    <div id="reviews-list"></div>
                 </div>
             </div>
 
             <div class="right-col">
                 <div class="content-box" style="text-align: center;">
-                    <div id="big-rating" style="font-size: 56px; font-weight: 900; color: #4ade80; line-height: 1;">0.0</div>
-                    <div style="color: var(--vk-text); font-weight: 700; margin: 10px 0 20px;">Оценка игроков</div>
-                    <button class="btn-vk" style="width: 100%; background: none; border: 1px solid var(--vk-line);" onclick="document.getElementById('reviews-anchor').scrollIntoView({behavior:'smooth'})">Оценить игру</button>
-                </div>
-
-                <div class="content-box">
-                    <div class="info-row"><span class="info-label">Жанр</span> <span>Хоррор, Новелла</span></div>
-                    <div class="info-row"><span class="info-label">Разработчик</span> <span>Shintrix</span></div>
-                    <div class="info-row"><span class="info-label">Издатель</span> <span>Shintrix</span></div>
+                    <div id="avg-rating" style="font-size: 56px; font-weight: 900; color: #4ade80;">0.0</div>
+                    <div style="color:var(--vk-text)">Рейтинг сообщества</div>
                 </div>
             </div>
-        </div>
-
-        <div id="reviews-anchor" style="margin: 0 10% 100px;">
-            <h2>Отзывы</h2>
-            <div id="review-editor" class="content-box" style="display: none;">
-                <h4 id="editor-title" style="margin:0 0 10px">Оставить отзыв</h4>
-                <div class="rating-input" id="star-input">
-                    <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
-                </div>
-                <textarea id="rev-text" style="width: 100%; background: #0b0c0f; border: 1px solid var(--vk-line); color: white; padding: 15px; border-radius: 8px; resize: none; box-sizing: border-box;" rows="4" placeholder="Ваше мнение..."></textarea>
-                <button class="btn-vk" style="margin-top: 15px;" onclick="sendReview()">Опубликовать</button>
-            </div>
-            <div id="reviews-list"></div>
         </div>
     </div>
 
-    <!-- STEAM MODAL -->
+    <!-- PROFILE MODAL -->
     <div id="profile-modal">
-        <div class="steam-shell">
-            <span class="close-btn" onclick="closeProfile()">&times;</span>
-            <div class="steam-header">
-                <div class="steam-avatar-wrap">
-                    <img id="st-avatar" src="" alt="">
+        <div class="steam-window">
+            <span class="close-st" onclick="closeModal()">&times;</span>
+            
+            <!-- VIEW MODE (Фото 2) -->
+            <div id="st-view-mode">
+                <div class="st-view-header">
+                    <div class="st-avatar-frame"><img id="st-img" src=""></div>
+                    <div class="st-header-info">
+                        <h2 class="st-name" id="st-name-display"></h2>
+                        <div class="st-online" id="st-status">В сети</div>
+                    </div>
+                    <div class="st-level-box">
+                        <div style="font-size:12px; margin-bottom:5px;">Уровень <span class="st-level-circle">32</span></div>
+                        <button id="edit-btn" class="btn-st-blue" style="margin-top:40px; font-size:12px;" onclick="showEdit()">Редактировать профиль</button>
+                    </div>
                 </div>
-                <div class="steam-main-info">
-                    <div class="steam-name" id="st-name"></div>
-                    <div class="steam-status" id="st-status">В сети</div>
-                </div>
-                <div style="text-align: right;">
-                    <div style="font-size: 12px;">Уровень <span class="steam-level-circle" style="display:inline-flex;">32</span></div>
+                <div class="st-view-body">
+                    <div class="st-left-col">
+                        <h4 style="margin:0 0 15px; color:white">Избранные игры</h4>
+                        <div id="st-favs-list"></div>
+                    </div>
+                    <div class="st-right-col">
+                        <div style="color:white; margin-bottom:15px;">Значки</div>
+                        <div style="display:flex; gap:5px;"><div style="width:35px; height:35px; background:#333;"></div></div>
+                    </div>
                 </div>
             </div>
-            <div class="steam-body">
-                <div class="steam-left-content">
-                    <div id="st-edit-zone" style="display: none; border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
-                        <h4 style="color:white; margin:0 0 10px;">Редактировать профиль</h4>
-                        <input type="text" id="edit-name" class="edit-input" placeholder="Новый ник">
-                        <input type="text" id="edit-pic" class="edit-input" placeholder="Ссылка на аватар (URL)">
-                        <button class="btn-steam" onclick="saveProfile()">Сохранить</button>
-                        <button class="btn-steam" style="background:#555;" onclick="logout()">Выйти</button>
+
+            <!-- EDIT MODE (Фото 3) -->
+            <div id="st-edit-mode">
+                <div class="st-edit-container">
+                    <div class="st-edit-nav">
+                        <div class="st-nav-item active">Основное</div>
+                        <div class="st-nav-item">Аватар</div>
+                        <div class="st-nav-item">Фон профиля</div>
+                        <div class="st-nav-item" onclick="logout()" style="color:#ff4b4b; margin-top:100px;">Выйти из аккаунта</div>
                     </div>
-                    <h4 style="color:white; margin:0 0 15px;">Избранные игры</h4>
-                    <div id="st-favs"></div>
-                </div>
-                <div class="steam-right-col">
-                    <div style="color:white; font-size: 14px; margin-bottom: 20px;">В сети</div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 15px;">
-                        <span style="color:#66c0f4;">Значки</span>
-                        <div style="display:flex; gap:5px; margin-top:10px;">
-                            <div style="width:30px; height:30px; background:#333;"></div>
-                            <div style="width:30px; height:30px; background:#333;"></div>
+                    <div class="st-edit-main">
+                        <h2 style="color:white; margin:0 0 5px; font-weight:400;">Основное</h2>
+                        <p style="font-size:12px; margin-bottom:30px;">Укажите имя профиля и другую информацию.</p>
+                        
+                        <div class="st-input-group">
+                            <label class="st-label">Имя профиля</label>
+                            <input type="text" id="edit-name" class="st-input">
+                        </div>
+                        <div class="st-input-group">
+                            <label class="st-label">Настоящее имя</label>
+                            <input type="text" class="st-input" placeholder="Необязательно">
+                        </div>
+                        <div class="st-input-group">
+                            <label class="st-label">Ссылка на аватар (URL)</label>
+                            <input type="text" id="edit-avatar" class="st-input">
+                        </div>
+                        <div class="st-input-group">
+                            <label class="st-label">О себе</label>
+                            <textarea class="st-textarea" placeholder="Расскажите о себе..."></textarea>
+                        </div>
+                        
+                        <div style="border-top: 1px solid #333; padding-top:20px;">
+                            <button class="btn-st-blue" onclick="saveProfile()">Сохранить изменения</button>
+                            <button class="btn-st-blue" style="background:#333; margin-left:10px;" onclick="hideEdit()">Отмена</button>
                         </div>
                     </div>
                 </div>
@@ -230,170 +235,149 @@
         let selectedStars = 0;
         const adminEmail = "galapopopo@gmail.com";
 
-        // --- AUTH & HEARTBEAT ---
+        // --- AUTH ---
         window.login = () => signInWithPopup(auth, provider);
         window.logout = () => signOut(auth).then(() => location.reload());
 
         onAuthStateChanged(auth, async (user) => {
             currentUser = user;
-            document.getElementById('auth-area').style.display = user ? 'none' : 'block';
-            document.getElementById('user-area').style.display = user ? 'flex' : 'none';
+            document.getElementById('auth-section').style.display = user ? 'none' : 'block';
+            document.getElementById('user-section').style.display = user ? 'flex' : 'none';
             document.getElementById('review-editor').style.display = user ? 'block' : 'none';
 
             if (user) {
                 const userRef = doc(db, "users", user.uid);
-                const uSnap = await getDoc(userRef);
-                
+                let uSnap = await getDoc(userRef);
                 if (!uSnap.exists()) {
                     await setDoc(userRef, { name: user.displayName, photo: user.photoURL, lastSeen: serverTimestamp() });
+                    uSnap = await getDoc(userRef);
                 } else {
-                    // Update heartbeat
                     await updateDoc(userRef, { lastSeen: serverTimestamp() });
                 }
-
-                const data = (await getDoc(userRef)).data();
-                document.getElementById('nav-username').innerText = data.name;
-                document.getElementById('nav-avatar').src = data.photo;
-                
-                checkReview();
+                const data = uSnap.data();
+                document.getElementById('nav-name').innerText = data.name;
+                document.getElementById('nav-img').src = data.photo;
                 checkFav();
             }
         });
 
-        // --- STARS LOGIC ---
+        // --- MODAL LOGIC ---
+        window.openProfile = async (uid) => {
+            const targetUid = (uid === 'me') ? currentUser.uid : uid;
+            const uSnap = await getDoc(doc(db, "users", targetUid));
+            if (!uSnap.exists()) return;
+            const data = uSnap.data();
+
+            document.getElementById('st-name-display').innerText = data.name;
+            document.getElementById('st-img').src = data.photo;
+            document.getElementById('edit-name').value = data.name;
+            document.getElementById('edit-avatar').value = data.photo;
+
+            // Status check
+            const isOnline = data.lastSeen && (Date.now() - data.lastSeen.toMillis() < 300000);
+            const status = document.getElementById('st-status');
+            status.innerText = isOnline ? "В сети" : "Не в сети";
+            status.style.color = isOnline ? "#57cbde" : "#898989";
+
+            document.getElementById('edit-btn').style.display = (uid === 'me') ? 'block' : 'none';
+            
+            // Favs
+            const favSnap = await getDoc(doc(db, "favorites", targetUid + "_rastess"));
+            document.getElementById('st-favs-list').innerHTML = favSnap.exists() ? 
+                `<div style="display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.4); padding:10px;"><img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" style="width:40px"> <b>RASTESS</b></div>` : 
+                "<p>Нет избранного</p>";
+
+            document.getElementById('st-view-mode').style.display = 'block';
+            document.getElementById('st-edit-mode').style.display = 'none';
+            document.getElementById('profile-modal').style.display = 'block';
+        };
+
+        window.closeModal = () => document.getElementById('profile-modal').style.display = 'none';
+        window.showEdit = () => { document.getElementById('st-view-mode').style.display = 'none'; document.getElementById('st-edit-mode').style.display = 'block'; };
+        window.hideEdit = () => { document.getElementById('st-view-mode').style.display = 'block'; document.getElementById('st-edit-mode').style.display = 'none'; };
+
+        window.saveProfile = async () => {
+            const newName = document.getElementById('edit-name').value;
+            const newPhoto = document.getElementById('edit-avatar').value;
+            await updateDoc(doc(db, "users", currentUser.uid), { name: newName, photo: newPhoto });
+            
+            // Sync Review
+            const revRef = doc(db, "reviews", currentUser.uid);
+            const rSnap = await getDoc(revRef);
+            if(rSnap.exists()) await updateDoc(revRef, { name: newName, photo: newPhoto });
+            
+            alert("Профиль обновлен!");
+            location.reload();
+        };
+
+        // --- STARS ---
         const starNodes = document.querySelectorAll('#star-input span');
         starNodes.forEach(s => {
             s.onclick = () => {
                 selectedStars = s.dataset.v;
-                starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
+                starNodes.forEach(sn => sn.style.color = sn.dataset.v <= selectedStars ? '#fbbf24' : '#333');
             };
         });
 
-        // --- PROFILE MODAL ---
-        window.openProfile = async (uid) => {
-            const targetUid = uid === 'me' ? currentUser.uid : uid;
-            const uSnap = await getDoc(doc(db, "users", targetUid));
-            if (!uSnap.exists()) return;
-            
-            const data = uSnap.data();
-            document.getElementById('st-name').innerText = data.name;
-            document.getElementById('st-avatar').src = data.photo;
-            
-            // Real-time Online status (5 min threshold)
-            const isOnline = data.lastSeen && (Date.now() - data.lastSeen.toMillis() < 300000);
-            const statusEl = document.getElementById('st-status');
-            statusEl.innerText = isOnline ? "В сети" : "Не в сети";
-            statusEl.style.color = isOnline ? "#57cbde" : "#898989";
-
-            document.getElementById('st-edit-zone').style.display = (uid === 'me') ? 'block' : 'none';
-            
-            // Load Favorites into profile
-            const fSnap = await getDoc(doc(db, "favorites", targetUid + "_rastess"));
-            document.getElementById('st-favs').innerHTML = fSnap.exists() ? 
-                `<div style="display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.4); padding:10px;">
-                    <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png" style="width:40px">
-                    <b>RASTESS</b>
-                </div>` : "<p>Нет избранных игр</p>";
-
-            document.getElementById('profile-modal').style.display = 'block';
-        };
-
-        window.closeProfile = () => document.getElementById('profile-modal').style.display = 'none';
-
-        window.saveProfile = async () => {
-            const newName = document.getElementById('edit-name').value;
-            const newPic = document.getElementById('edit-pic').value;
-            const updateData = {};
-            if (newName) updateData.name = newName;
-            if (newPic) updateData.photo = newPic;
-            
-            await updateDoc(doc(db, "users", currentUser.uid), updateData);
-            // Sync current review
-            const revSnap = await getDoc(doc(db, "reviews", currentUser.uid));
-            if(revSnap.exists()) {
-                await updateDoc(doc(db, "reviews", currentUser.uid), {
-                    name: newName || revSnap.data().name,
-                    photo: newPic || revSnap.data().photo
-                });
-            }
-            location.reload();
-        };
-
         // --- REVIEWS ---
-        async function checkReview() {
-            const snap = await getDoc(doc(db, "reviews", currentUser.uid));
-            if (snap.exists()) {
-                document.getElementById('rev-text').value = snap.data().text;
-                selectedStars = snap.data().stars;
-                starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
-                document.getElementById('editor-title').innerText = "Редактировать ваш отзыв";
-            }
-        }
-
         window.sendReview = async () => {
-            if (selectedStars == 0) return alert("Поставьте оценку!");
+            if(selectedStars == 0) return alert("Оценка?");
             const uData = (await getDoc(doc(db, "users", currentUser.uid))).data();
             await setDoc(doc(db, "reviews", currentUser.uid), {
-                uid: currentUser.uid,
-                name: uData.name,
-                photo: uData.photo,
-                stars: parseInt(selectedStars),
-                text: document.getElementById('rev-text').value,
+                uid: currentUser.uid, name: uData.name, photo: uData.photo,
+                stars: parseInt(selectedStars), text: document.getElementById('rev-text').value,
                 time: serverTimestamp()
             });
-            alert("Сохранено!");
+            alert("Отзыв отправлен!");
         };
 
         onSnapshot(query(collection(db, "reviews"), orderBy("time", "desc")), (snap) => {
             const list = document.getElementById('reviews-list');
             list.innerHTML = "";
             let sum = 0;
-            snap.forEach(docRes => {
-                const d = docRes.data();
-                sum += d.stars;
-                const isMe = currentUser && (currentUser.uid === d.uid || currentUser.email === adminEmail);
+            snap.forEach(d => {
+                const data = d.data();
+                sum += data.stars;
+                const canDel = currentUser && (currentUser.uid === data.uid || currentUser.email === adminEmail);
                 list.innerHTML += `
-                    <div class="review-item">
-                        <div style="display:flex; justify-content:space-between; align-items:start">
-                            <div class="author-info" onclick="openProfile('${d.uid}')">
-                                <img src="${d.photo}">
-                                <div>
-                                    <b>${d.name}</b>
-                                    <div class="star-box">${"★".repeat(d.stars)}${"☆".repeat(5-d.stars)}</div>
-                                </div>
+                    <div class="review-item" style="background:var(--vk-card); padding:20px; border-radius:12px; border:1px solid var(--vk-line); margin-bottom:15px;">
+                        <div style="display:flex; justify-content:space-between;">
+                            <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="openProfile('${data.uid}')">
+                                <img src="${data.photo}" style="width:35px; height:35px; border-radius:3px; object-fit:cover;">
+                                <b>${data.name}</b>
                             </div>
-                            ${isMe ? `<button onclick="deleteRev('${docRes.id}')" style="background:none; border:none; color:#ff4444; cursor:pointer; font-size:12px;">Удалить</button>` : ""}
+                            <span style="color:#fbbf24">${"★".repeat(data.stars)}</span>
                         </div>
-                        <p style="margin:15px 0 0; color:#eee;">${d.text}</p>
-                    </div>
-                `;
+                        <p style="margin:10px 0 0; color:#ccc;">${data.text}</p>
+                        ${canDel ? `<button onclick="deleteRev('${d.id}')" style="background:none; border:none; color:red; cursor:pointer; font-size:12px;">Удалить</button>` : ""}
+                    </div>`;
             });
-            document.getElementById('big-rating').innerText = snap.size > 0 ? (sum / snap.size).toFixed(1) : "0.0";
+            document.getElementById('avg-rating').innerText = snap.size > 0 ? (sum/snap.size).toFixed(1) : "0.0";
         });
 
-        window.deleteRev = async (id) => confirm("Удалить отзыв?") && await deleteDoc(doc(db, "reviews", id));
+        window.deleteRev = async (id) => confirm("Удалить?") && await deleteDoc(doc(db, "reviews", id));
 
-        // --- FAVORITES ---
-        window.toggleFav = async () => {
-            if (!currentUser) return login();
+        // --- FAVS ---
+        window.toggleFavorite = async () => {
+            if(!currentUser) return login();
             const ref = doc(db, "favorites", currentUser.uid + "_rastess");
             const snap = await getDoc(ref);
-            if (snap.exists()) {
+            if(snap.exists()) {
                 await deleteDoc(ref);
-                document.getElementById('heart-icon').className = "fa-regular fa-heart";
-                document.getElementById('heart-icon').style.color = "white";
+                document.getElementById('heart-btn').className = "fa-regular fa-heart";
+                document.getElementById('heart-btn').style.color = "white";
             } else {
                 await setDoc(ref, { game: "RASTESS", time: serverTimestamp() });
-                document.getElementById('heart-icon').className = "fa-solid fa-heart";
-                document.getElementById('heart-icon').style.color = "#ff4444";
+                document.getElementById('heart-btn').className = "fa-solid fa-heart";
+                document.getElementById('heart-btn').style.color = "#ff4444";
             }
         };
 
         async function checkFav() {
             const snap = await getDoc(doc(db, "favorites", currentUser.uid + "_rastess"));
-            if (snap.exists()) {
-                document.getElementById('heart-icon').className = "fa-solid fa-heart";
-                document.getElementById('heart-icon').style.color = "#ff4444";
+            if(snap.exists()) {
+                document.getElementById('heart-btn').className = "fa-solid fa-heart";
+                document.getElementById('heart-btn').style.color = "#ff4444";
             }
         }
     </script>
