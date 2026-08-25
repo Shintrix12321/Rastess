@@ -13,8 +13,10 @@
             --vk-accent: #007aff;
             --vk-text: #9ca3af;
             --vk-line: #2a2e35;
-            --st-bg: #1b2838;
+            --st-bg: #171a21;
+            --st-nav: #212429;
             --st-blue: #57cbde;
+            --st-btn: #4e697d;
         }
 
         body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--vk-bg); color: white; overflow-x: hidden; }
@@ -51,7 +53,7 @@
         .media-box { width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; border: 1px solid var(--vk-line); margin-bottom: 20px; }
         .media-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- ЗВЕЗДЫ С ПОДСВЕТКОЙ --- */
+        /* --- ЗВЕЗДЫ --- */
         .rating-input { display: flex; gap: 5px; font-size: 30px; cursor: pointer; margin: 15px 0; }
         .rating-input span { color: #333; transition: 0.2s; }
         .rating-input span.hover, .rating-input span.active { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
@@ -59,7 +61,7 @@
         /* --- ПОЛНОЭКРАННЫЙ STEAM ПРОФИЛЬ --- */
         #profile-modal { 
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: var(--st-bg); z-index: 9999; overflow-y: auto; color: #acb2b8;
+            background: #1b2838; z-index: 9999; overflow-y: auto; color: #acb2b8;
         }
         .steam-shell { max-width: 940px; margin: 40px auto; background: rgba(0,0,0,0.4); border: 1px solid #000; position: relative; min-height: 90vh; }
         
@@ -68,13 +70,13 @@
         .st-avatar-frame img { width: 160px; height: 160px; object-fit: cover; }
         .st-header-info { flex-grow: 1; }
         .st-name-big { font-size: 34px; color: white; font-weight: 200; margin: 0; }
-        .st-status-text { font-size: 14px; color: var(--st-blue); margin-top: 5px; }
+        .st-bio-display { color: #898989; font-size: 14px; margin-top: 15px; white-space: pre-wrap; }
         
         .st-level-circle { width: 40px; height: 40px; border: 2px solid #4e697d; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
 
         .st-body { display: grid; grid-template-columns: 1fr 280px; }
         .st-main-content { padding: 30px; }
-        .st-sidebar { padding: 30px 20px; background: rgba(0,0,0,0.2); }
+        .st-sidebar { padding: 30px 20px; background: rgba(0,0,0,0.3); }
 
         .st-side-link { color: white; text-decoration: none; display: block; padding: 8px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: pointer; }
         .st-side-link:hover { color: var(--st-blue); }
@@ -82,21 +84,44 @@
 
         .st-card { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid var(--st-blue); }
 
-        #st-edit-zone { display: none; padding: 40px; background: #171a21; }
-        .st-input { width: 100%; background: #2a2e33; border: 1px solid #000; color: white; padding: 12px; margin: 10px 0; border-radius: 3px; box-sizing: border-box; }
+        /* ЗОНА РЕДАКТИРОВАНИЯ STEAM */
+        #st-edit-zone { display: none; margin-top: 0; }
+        .st-edit-grid { display: grid; grid-template-columns: 240px 1fr; background: #171a21; min-height: 700px; border: 1px solid #000; }
+        .st-edit-nav { background: #212429; padding: 20px 0; }
+        .st-nav-link { padding: 12px 25px; color: #afafaf; cursor: pointer; border-left: 3px solid transparent; font-size: 14px; }
+        .st-nav-link.active { background: #3d4450; color: white; border-left-color: var(--st-blue); }
+        .st-edit-body { padding: 40px; }
+
+        .st-input { width: 100%; background: #2a2e33; border: 1px solid #000; color: white; padding: 10px; border-radius: 3px; box-sizing: border-box; margin-bottom: 20px; }
+        .st-label { color: #8f98a0; font-size: 12px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+
+        /* ЭСТЕТИЧНАЯ ЗОНА ЗАГРУЗКИ АВАТАРА */
+        .drop-zone-avatar {
+            width: 100%; height: 120px;
+            border: 1px dashed #444; border-radius: 4px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; background: rgba(0,0,0,0.2); color: #777; transition: 0.3s;
+            margin-bottom: 30px;
+        }
+        .drop-zone-avatar:hover { border-color: var(--st-blue); background: rgba(87, 203, 222, 0.05); color: var(--st-blue); }
+
+        .avatar-previews { display: flex; align-items: flex-end; gap: 30px; margin-top: 20px; }
+        .preview-box { text-align: center; font-size: 11px; color: #555; }
+        .preview-184 { width: 184px; height: 184px; border: 1px solid #000; background: #111; }
+        .preview-64 { width: 64px; height: 64px; border: 1px solid #000; background: #111; }
+        .preview-32 { width: 32px; height: 32px; border: 1px solid #000; background: #111; }
 
         .close-st { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #898989; z-index: 10; }
-        .btn-st-blue { background: linear-gradient(to bottom, #63b5e4 5%, #2483b3 95%); color: white; border: none; padding: 10px 30px; border-radius: 2px; cursor: pointer; }
+        .btn-st-blue { background: linear-gradient(to bottom, #63b5e4 5%, #2483b3 95%); color: white; border: none; padding: 10px 25px; border-radius: 2px; cursor: pointer; }
 
         /* Отзывы */
         .review-item { background: var(--vk-card); border-radius: 12px; padding: 20px; border: 1px solid var(--vk-line); margin-bottom: 15px; }
         .author-box { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .author-box:hover b { color: var(--vk-accent); }
     </style>
 </head>
 <body>
 
-    <!-- ВЕРХНЯЯ ПАНЕЛЬ VK PLAY -->
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
     <div class="header-top">
         <div style="font-weight: 900; letter-spacing: 2px; color: var(--vk-accent);">RASTESS</div>
         <div id="auth-area"><button class="btn-vk" onclick="login()">Войти</button></div>
@@ -121,17 +146,13 @@
 
         <div class="main-container">
             <div class="left-col">
-                <div class="media-box">
-                    <img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png">
-                </div>
+                <div class="media-box"><img src="https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png"></div>
                 <div class="content-box">
                     <h2>О проекте</h2>
-                    <p style="color:var(--vk-text)">Заброшенный поселок Растесс. Дым торфяников. Ваша история начинается здесь. В этой визуальной новелле каждое ваше решение определяет, останетесь ли вы человеком или станете частью тумана.</p>
+                    <p style="color:var(--vk-text)">Заброшенный поселок Растесс. Ваша история начинается здесь.</p>
                     <h3 style="margin-top:30px">Системные требования</h3>
-                    <div class="info-row"><span>ОС</span> <span>Windows 10/11 (64-bit)</span></div>
-                    <div class="info-row"><span>Процессор</span> <span>Intel Core i3 / AMD Ryzen 3</span></div>
-                    <div class="info-row"><span>Видеокарта</span> <span>NVIDIA GTX 1050 / AMD RX 560</span></div>
-                    <div class="info-row"><span>Место на диске</span> <span>500 MB</span></div>
+                    <div class="info-row"><span>ОС</span> <span>Windows 10/11</span></div>
+                    <div class="info-row"><span>Процессор</span> <span>Intel Core i3</span></div>
                 </div>
                 <div id="reviews-anchor">
                     <h2>Отзывы сообщества</h2>
@@ -139,21 +160,16 @@
                         <div id="star-input" class="rating-input">
                             <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
                         </div>
-                        <textarea id="rev-text" class="st-input" style="background:#0b0c0f; border-radius:8px; height:100px;" placeholder="Ваш отзыв..."></textarea>
+                        <textarea id="rev-text" class="st-input" style="background:#0b0c0f; height:100px;" placeholder="Ваш отзыв..."></textarea>
                         <button class="btn-vk" style="margin-top:15px" onclick="sendReview()">Опубликовать</button>
                     </div>
                     <div id="reviews-list"></div>
                 </div>
             </div>
-
             <div class="right-col">
                 <div class="content-box" style="text-align: center;">
                     <div id="avg-rating" style="font-size: 56px; font-weight: 900; color: #4ade80;">0.0</div>
                     <div style="color:var(--vk-text); font-weight:700;">Рейтинг сообщества</div>
-                </div>
-                <div class="content-box">
-                    <div class="info-row"><span>Жанр</span> <span>Хоррор, Новелла</span></div>
-                    <div class="info-row"><span>Разработчик</span> <span>Shintrix</span></div>
                 </div>
             </div>
         </div>
@@ -164,45 +180,65 @@
         <div class="steam-shell">
             <span class="close-st" onclick="closeProfile()">&times;</span>
             
+            <!-- VIEW MODE -->
             <div id="st-view-mode">
                 <div class="st-header">
                     <div class="st-avatar-frame"><img id="st-img" src=""></div>
                     <div class="st-header-info">
                         <h2 class="st-name-big" id="st-name-display"></h2>
-                        <div class="st-status-text" id="st-status">В сети</div>
+                        <div style="color:var(--st-blue); font-size:14px; margin-top:5px" id="st-status">В сети</div>
+                        <div class="st-bio-display" id="st-bio-view"></div>
                     </div>
                     <div class="st-level-box">
                         <div style="font-size:12px; margin-bottom:10px;">Уровень <span class="st-level-circle">32</span></div>
-                        <button id="edit-profile-btn" class="btn-st-blue" style="font-size:12px;" onclick="showEdit()">Редактировать профиль</button>
+                        <button id="edit-btn-st" class="btn-st-blue" style="font-size:12px;" onclick="showEdit()">Редактировать профиль</button>
                     </div>
                 </div>
-                
                 <div class="st-body">
-                    <div class="st-main-content" id="st-dynamic-content">
-                        <h4 style="color:white; margin:0 0 15px;">Загрузка...</h4>
-                    </div>
-                    
+                    <div class="st-main-content" id="st-dynamic-content"><h4>Загрузка...</h4></div>
                     <div class="st-sidebar">
-                        <div style="margin-bottom: 25px;">
-                            <div id="side-status" style="color:var(--st-blue); font-size: 15px;">В сети</div>
-                        </div>
+                        <div style="margin-bottom: 25px; color:var(--st-blue)" id="side-status">В сети</div>
                         <a class="st-side-link" id="link-revs">Обзоры <span id="count-rev">0</span></a>
                         <a class="st-side-link" id="link-favs">Избранное <span id="count-fav">0</span></a>
                     </div>
                 </div>
             </div>
 
-            <!-- ЗОНА РЕДАКТИРОВАНИЯ -->
+            <!-- EDIT MODE -->
             <div id="st-edit-zone">
-                <h2 style="color:white; font-weight: 400;">Настройки профиля</h2>
-                <label style="font-size:12px">НИКНЕЙМ</label>
-                <input type="text" id="edit-name" class="st-input">
-                <label style="font-size:12px">ССЫЛКА НА АВАТАР (URL)</label>
-                <input type="text" id="edit-pic" class="st-input">
-                <br><br>
-                <button class="btn-st-blue" onclick="saveProfile()">Сохранить изменения</button>
-                <button class="btn-st-blue" style="background:#333; margin-left:10px;" onclick="hideEdit()">Отмена</button>
-                <button class="btn-st-blue" style="background:#a44; float:right;" onclick="logout()">Выйти</button>
+                <div class="st-edit-grid">
+                    <div class="st-edit-nav">
+                        <div class="st-nav-link active" onclick="switchEditTab('general')">Основное</div>
+                        <div class="st-nav-link" onclick="switchEditTab('avatar')">Аватар</div>
+                        <div class="st-nav-link" onclick="logout()" style="color:#ff4b4b; margin-top:50px;">Выйти из аккаунта</div>
+                    </div>
+                    <div class="st-edit-body">
+                        <div id="tab-general">
+                            <h2 style="color:white; font-weight:400; margin:0 0 20px;">Основное</h2>
+                            <label class="st-label">Имя профиля</label>
+                            <input type="text" id="edit-name" class="st-input">
+                            <label class="st-label">О себе</label>
+                            <textarea id="edit-bio" class="st-input" style="height:120px; resize:none;"></textarea>
+                            <button class="btn-st-blue" onclick="saveProfile()">Сохранить изменения</button>
+                        </div>
+                        <div id="tab-avatar" style="display:none">
+                            <h2 style="color:white; font-weight:400; margin:0 0 5px;">Аватар</h2>
+                            <p style="font-size:12px; margin-bottom:20px;">Выберите изображение.</p>
+                            <div class="drop-zone-avatar" id="drop-zone-avatar">
+                                <i class="far fa-images" style="font-size: 24px; margin-bottom: 5px;"></i>
+                                <span id="avatar-file-name">Нажмите или перетащите фото</span>
+                                <input type="file" id="inp-avatar-file" style="display:none" accept="image/*">
+                            </div>
+                            <div class="avatar-previews">
+                                <div class="preview-box"><img id="pre-184" class="preview-184"><br>184px</div>
+                                <div class="preview-box"><img id="pre-64" class="preview-64"><br>64px</div>
+                                <div class="preview-box"><img id="pre-32" class="preview-32"><br>32px</div>
+                            </div>
+                            <br><br>
+                            <button class="btn-st-blue" onclick="saveProfile()">Сохранить изменения</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -229,6 +265,7 @@
 
         let currentUser = null;
         let selectedStars = 0;
+        let uploadedAvatarBase64 = null;
         const adminEmail = "galapopopo@gmail.com";
 
         window.login = () => signInWithPopup(auth, provider);
@@ -239,59 +276,54 @@
             document.getElementById('auth-area').style.display = user ? 'none' : 'block';
             document.getElementById('user-area').style.display = user ? 'flex' : 'none';
             document.getElementById('review-editor').style.display = user ? 'block' : 'none';
-
             if (user) {
                 const uRef = doc(db, "users", user.uid);
                 let snap = await getDoc(uRef);
-                if (!snap.exists()) {
-                    await setDoc(uRef, { name: user.displayName, photo: user.photoURL, lastSeen: serverTimestamp() });
-                    snap = await getDoc(uRef);
-                } else {
-                    await updateDoc(uRef, { lastSeen: serverTimestamp() });
-                }
+                if (!snap.exists()) { await setDoc(uRef, { name: user.displayName, photo: user.photoURL, bio: "", lastSeen: serverTimestamp() }); snap = await getDoc(uRef); }
+                else { await updateDoc(uRef, { lastSeen: serverTimestamp() }); }
                 document.getElementById('nav-name').innerText = snap.data().name;
                 document.getElementById('nav-img').src = snap.data().photo;
                 checkReview();
-                checkFav();
             }
         });
 
-        // --- STARS HOVER LOGIC ---
-        const starNodes = document.querySelectorAll('#star-input span');
-        starNodes.forEach(s => {
-            s.onmouseover = () => {
-                const v = s.dataset.v;
-                starNodes.forEach(sn => sn.classList.toggle('hover', sn.dataset.v <= v));
-            };
-            s.onmouseout = () => starNodes.forEach(sn => sn.classList.remove('hover'));
-            s.onclick = () => {
-                selectedStars = s.dataset.v;
-                starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
-            };
-        });
+        // --- AVATAR UPLOAD LOGIC ---
+        const dropZone = document.getElementById('drop-zone-avatar');
+        const fileInp = document.getElementById('inp-avatar-file');
+        dropZone.onclick = () => fileInp.click();
+        fileInp.onchange = (e) => { if(e.target.files.length) handleFile(e.target.files[0]); };
+        
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                uploadedAvatarBase64 = reader.result;
+                ['pre-184', 'pre-64', 'pre-32'].forEach(id => document.getElementById(id).src = reader.result);
+                document.getElementById('avatar-file-name').innerText = "Фото выбрано";
+            }
+        }
 
-        // --- PROFILE ---
+        // --- PROFILE & TABS ---
         window.openProfile = async (uid) => {
             const targetUid = uid === 'me' ? currentUser.uid : uid;
             const snap = await getDoc(doc(db, "users", targetUid));
             if(!snap.exists()) return;
             const d = snap.data();
-
             document.getElementById('st-name-display').innerText = d.name;
             document.getElementById('st-img').src = d.photo;
+            document.getElementById('st-bio-view').innerText = d.bio || "";
             document.getElementById('edit-name').value = d.name;
-            document.getElementById('edit-pic').value = d.photo;
+            document.getElementById('edit-bio').value = d.bio || "";
+            ['pre-184', 'pre-64', 'pre-32'].forEach(id => document.getElementById(id).src = d.photo);
 
             const isOnline = d.lastSeen && (Date.now() - d.lastSeen.toMillis() < 300000);
-            const statusText = isOnline ? "В сети" : "Не в сети";
-            const statusColor = isOnline ? "#57cbde" : "#898989";
-            document.getElementById('st-status').innerText = statusText;
-            document.getElementById('st-status').style.color = statusColor;
-            document.getElementById('side-status').innerText = statusText;
-            document.getElementById('side-status').style.color = statusColor;
+            ['st-status', 'side-status'].forEach(id => {
+                const el = document.getElementById(id);
+                el.innerText = isOnline ? "В сети" : "Не в сети";
+                el.style.color = isOnline ? "#57cbde" : "#898989";
+            });
 
-            document.getElementById('edit-profile-btn').style.display = (uid === 'me') ? 'block' : 'none';
-            
+            document.getElementById('edit-btn-st').style.display = (uid === 'me') ? 'block' : 'none';
             const rSnap = await getDocs(query(collection(db, "reviews"), where("uid", "==", targetUid)));
             document.getElementById('count-rev').innerText = rSnap.size;
             const fSnap = await getDoc(doc(db, "favorites", targetUid + "_rastess"));
@@ -299,47 +331,59 @@
 
             document.getElementById('link-favs').onclick = () => loadTabContent('favs', targetUid);
             document.getElementById('link-revs').onclick = () => loadTabContent('revs', targetUid);
-
             loadTabContent('favs', targetUid);
-            document.getElementById('st-view-mode').style.display = 'block';
-            document.getElementById('st-edit-zone').style.display = 'none';
             document.getElementById('profile-modal').style.display = 'block';
+            switchMode('view');
+        };
+
+        window.switchEditTab = (tab) => {
+            document.getElementById('tab-general').style.display = tab === 'general' ? 'block' : 'none';
+            document.getElementById('tab-avatar').style.display = tab === 'avatar' ? 'block' : 'none';
+            document.querySelectorAll('.st-nav-link').forEach(l => l.classList.toggle('active', l.innerText.toLowerCase().includes(tab === 'general' ? 'основное' : 'аватар')));
         };
 
         async function loadTabContent(tab, uid) {
             const container = document.getElementById('st-dynamic-content');
-            container.innerHTML = "<p>Загрузка...</p>";
             if(tab === 'favs') {
                 const fSnap = await getDoc(doc(db, "favorites", uid + "_rastess"));
-                container.innerHTML = fSnap.exists() ? `<h4>Избранное</h4><div class="st-card"><b>RASTESS</b></div>` : "<p>Нет избранного</p>";
+                container.innerHTML = fSnap.exists() ? `<h4>Избранное</h4><div class="st-card"><b>RASTESS</b></div>` : "<h4>Избранное</h4><p>Список пуст</p>";
             } else {
                 const rSnap = await getDocs(query(collection(db, "reviews"), where("uid", "==", uid)));
                 let html = "<h4>Обзоры пользователя</h4>";
-                rSnap.forEach(doc => { html += `<div class="st-card"><div>${"★".repeat(doc.data().stars)}</div><p>${doc.data().text}</p></div>`; });
+                rSnap.forEach(doc => { html += `<div class="st-card"><div style="color:#fbbf24">${"★".repeat(doc.data().stars)}</div><p>${doc.data().text}</p></div>`; });
                 container.innerHTML = rSnap.size > 0 ? html : "<p>Нет обзоров</p>";
             }
         }
 
-        window.closeProfile = () => document.getElementById('profile-modal').style.display = 'none';
-        window.showEdit = () => { document.getElementById('st-view-mode').style.display = 'none'; document.getElementById('st-edit-zone').style.display = 'block'; };
-        window.hideEdit = () => { document.getElementById('st-view-mode').style.display = 'block'; document.getElementById('st-edit-zone').style.display = 'none'; };
-
         window.saveProfile = async () => {
-            const up = { name: document.getElementById('edit-name').value, photo: document.getElementById('edit-pic').value };
+            const up = { name: document.getElementById('edit-name').value, bio: document.getElementById('edit-bio').value };
+            if(uploadedAvatarBase64) up.photo = uploadedAvatarBase64;
             await updateDoc(doc(db, "users", currentUser.uid), up);
             const rRef = doc(db, "reviews", currentUser.uid);
-            if((await getDoc(rRef)).exists()) await updateDoc(rRef, up);
+            if((await getDoc(rRef)).exists()) await updateDoc(rRef, { name: up.name, photo: up.photo || (await getDoc(doc(db,"users",currentUser.uid))).data().photo });
+            alert("Сохранено!");
             location.reload();
         };
 
-        // --- REVIEWS ---
+        window.closeProfile = () => document.getElementById('profile-modal').style.display = 'none';
+        window.showEdit = () => { document.getElementById('st-view-mode').style.display = 'none'; document.getElementById('st-edit-zone').style.display = 'block'; switchEditTab('general'); };
+        window.switchMode = (m) => { document.getElementById('st-view-mode').style.display = m === 'view' ? 'block' : 'none'; document.getElementById('st-edit-zone').style.display = m === 'edit' ? 'block' : 'none'; };
+        window.hideEdit = () => switchMode('view');
+
+        // --- STARS & REVIEWS ---
+        const starNodes = document.querySelectorAll('#star-input span');
+        starNodes.forEach(s => {
+            s.onmouseover = () => { const v = s.dataset.v; starNodes.forEach(sn => sn.classList.toggle('hover', sn.dataset.v <= v)); };
+            s.onmouseout = () => starNodes.forEach(sn => sn.classList.remove('hover'));
+            s.onclick = () => { selectedStars = s.dataset.v; starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars)); };
+        });
+
         async function checkReview() {
             const snap = await getDoc(doc(db, "reviews", currentUser.uid));
             if(snap.exists()) {
                 document.getElementById('rev-text').value = snap.data().text;
                 selectedStars = snap.data().stars;
                 starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
-                document.getElementById('editor-title').innerText = "Редактировать ваш отзыв";
             }
         }
 
@@ -350,7 +394,7 @@
                 uid: currentUser.uid, name: u.name, photo: u.photo, stars: parseInt(selectedStars),
                 text: document.getElementById('rev-text').value, time: serverTimestamp()
             });
-            alert("Сохранено");
+            alert("Отзыв отправлен");
         };
 
         onSnapshot(query(collection(db, "reviews"), orderBy("time", "desc")), (snap) => {
@@ -375,7 +419,7 @@
             document.getElementById('avg-rating').innerText = snap.size > 0 ? (sum/snap.size).toFixed(1) : "0.0";
         });
 
-        window.deleteRev = async (id) => confirm("Удалить?") && await deleteDoc(doc(db, "reviews", id));
+        window.deleteRev = async (id) => confirm("?") && await deleteDoc(doc(db, "reviews", id));
 
         // --- FAVS ---
         window.toggleFav = async () => {
@@ -387,8 +431,8 @@
 
         async function checkFav() {
             if((await getDoc(doc(db, "favorites", currentUser.uid + "_rastess"))).exists()) {
-                document.getElementById('heart-icon').className = "fa-solid fa-heart";
-                document.getElementById('heart-icon').style.color = "#ff4444";
+                const icon = document.getElementById('heart-icon');
+                if(icon) { icon.className = "fa-solid fa-heart"; icon.style.color = "#ff4444"; }
             }
         }
     </script>
