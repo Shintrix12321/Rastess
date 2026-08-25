@@ -14,7 +14,6 @@
             --vk-text: #9ca3af;
             --vk-line: #2a2e35;
             --st-bg: #1b2838;
-            --st-nav: #212429;
             --st-blue: #57cbde;
         }
 
@@ -37,6 +36,7 @@
                         url('https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png');
             background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 0 10% 40px;
         }
+        .hero h1 { font-size: 48px; font-weight: 800; margin: 0; }
         .buy-card { 
             background: var(--vk-card); border-radius: 12px; padding: 15px 25px; 
             display: flex; align-items: center; gap: 20px; border: 1px solid var(--vk-line);
@@ -44,12 +44,17 @@
         .btn-vk { background: var(--vk-accent); color: white; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; border:none; transition: 0.2s; font-family: inherit; }
         .btn-vk:hover { filter: brightness(1.2); }
 
-        .main-container { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin: 40px 10%; }
+        .main-container { display: grid; grid-template-columns: 2.2fr 1fr; gap: 30px; margin: 40px 10%; }
         .content-box { background: var(--vk-card); border-radius: 16px; padding: 25px; border: 1px solid var(--vk-line); margin-bottom: 25px; }
         .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--vk-text); }
         
         .media-box { width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; border: 1px solid var(--vk-line); margin-bottom: 20px; }
         .media-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- ЗВЕЗДЫ С ПОДСВЕТКОЙ --- */
+        .rating-input { display: flex; gap: 5px; font-size: 30px; cursor: pointer; margin: 15px 0; }
+        .rating-input span { color: #333; transition: 0.2s; }
+        .rating-input span.hover, .rating-input span.active { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
 
         /* --- ПОЛНОЭКРАННЫЙ STEAM ПРОФИЛЬ --- */
         #profile-modal { 
@@ -65,30 +70,28 @@
         .st-name-big { font-size: 34px; color: white; font-weight: 200; margin: 0; }
         .st-status-text { font-size: 14px; color: var(--st-blue); margin-top: 5px; }
         
-        .st-level-box { text-align: right; }
         .st-level-circle { width: 40px; height: 40px; border: 2px solid #4e697d; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
 
         .st-body { display: grid; grid-template-columns: 1fr 280px; }
         .st-main-content { padding: 30px; }
-        .st-sidebar { padding: 30px 20px; background: rgba(0,0,0,0.3); }
+        .st-sidebar { padding: 30px 20px; background: rgba(0,0,0,0.2); }
 
-        /* Ссылки боковой панели */
-        .st-side-link { color: white; text-decoration: none; display: block; padding: 8px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .st-side-link:hover { color: var(--st-blue); padding-left: 5px; }
+        .st-side-link { color: white; text-decoration: none; display: block; padding: 8px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; cursor: pointer; }
+        .st-side-link:hover { color: var(--st-blue); }
         .st-side-link span { float: right; color: #898989; }
 
-        /* Карточки внутри профиля */
         .st-card { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid var(--st-blue); }
 
-        /* Настройки */
         #st-edit-zone { display: none; padding: 40px; background: #171a21; }
         .st-input { width: 100%; background: #2a2e33; border: 1px solid #000; color: white; padding: 12px; margin: 10px 0; border-radius: 3px; box-sizing: border-box; }
 
         .close-st { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #898989; z-index: 10; }
-        .btn-st-blue { background: linear-gradient(to bottom, #63b5e4 5%, #2483b3 95%); color: white; border: none; padding: 10px 25px; border-radius: 2px; cursor: pointer; }
+        .btn-st-blue { background: linear-gradient(to bottom, #63b5e4 5%, #2483b3 95%); color: white; border: none; padding: 10px 30px; border-radius: 2px; cursor: pointer; }
 
         /* Отзывы */
         .review-item { background: var(--vk-card); border-radius: 12px; padding: 20px; border: 1px solid var(--vk-line); margin-bottom: 15px; }
+        .author-box { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .author-box:hover b { color: var(--vk-accent); }
     </style>
 </head>
 <body>
@@ -123,15 +126,17 @@
                 </div>
                 <div class="content-box">
                     <h2>О проекте</h2>
-                    <p style="color:var(--vk-text)">Заброшенный поселок Растесс. Дым торфяников. Ваша история начинается здесь.</p>
+                    <p style="color:var(--vk-text)">Заброшенный поселок Растесс. Дым торфяников. Ваша история начинается здесь. В этой визуальной новелле каждое ваше решение определяет, останетесь ли вы человеком или станете частью тумана.</p>
                     <h3 style="margin-top:30px">Системные требования</h3>
-                    <div class="info-row"><span>ОС</span> <span>Windows 10/11</span></div>
-                    <div class="info-row"><span>Процессор</span> <span>Intel Core i3</span></div>
+                    <div class="info-row"><span>ОС</span> <span>Windows 10/11 (64-bit)</span></div>
+                    <div class="info-row"><span>Процессор</span> <span>Intel Core i3 / AMD Ryzen 3</span></div>
+                    <div class="info-row"><span>Видеокарта</span> <span>NVIDIA GTX 1050 / AMD RX 560</span></div>
+                    <div class="info-row"><span>Место на диске</span> <span>500 MB</span></div>
                 </div>
                 <div id="reviews-anchor">
                     <h2>Отзывы сообщества</h2>
                     <div id="review-editor" class="content-box" style="display:none">
-                        <div id="star-input" style="font-size:30px; cursor:pointer; margin-bottom:15px; color:#333;">
+                        <div id="star-input" class="rating-input">
                             <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
                         </div>
                         <textarea id="rev-text" class="st-input" style="background:#0b0c0f; border-radius:8px; height:100px;" placeholder="Ваш отзыв..."></textarea>
@@ -145,6 +150,10 @@
                 <div class="content-box" style="text-align: center;">
                     <div id="avg-rating" style="font-size: 56px; font-weight: 900; color: #4ade80;">0.0</div>
                     <div style="color:var(--vk-text); font-weight:700;">Рейтинг сообщества</div>
+                </div>
+                <div class="content-box">
+                    <div class="info-row"><span>Жанр</span> <span>Хоррор, Новелла</span></div>
+                    <div class="info-row"><span>Разработчик</span> <span>Shintrix</span></div>
                 </div>
             </div>
         </div>
@@ -170,7 +179,6 @@
                 
                 <div class="st-body">
                     <div class="st-main-content" id="st-dynamic-content">
-                        <!-- Сюда подгружаются Избранное или Обзоры -->
                         <h4 style="color:white; margin:0 0 15px;">Загрузка...</h4>
                     </div>
                     
@@ -178,8 +186,8 @@
                         <div style="margin-bottom: 25px;">
                             <div id="side-status" style="color:var(--st-blue); font-size: 15px;">В сети</div>
                         </div>
-                        <a href="javascript:void(0)" class="st-side-link" id="link-revs">Обзоры <span id="count-rev">0</span></a>
-                        <a href="javascript:void(0)" class="st-side-link" id="link-favs">Избранное <span id="count-fav">1</span></a>
+                        <a class="st-side-link" id="link-revs">Обзоры <span id="count-rev">0</span></a>
+                        <a class="st-side-link" id="link-favs">Избранное <span id="count-fav">0</span></a>
                     </div>
                 </div>
             </div>
@@ -244,10 +252,25 @@
                 document.getElementById('nav-name').innerText = snap.data().name;
                 document.getElementById('nav-img').src = snap.data().photo;
                 checkReview();
+                checkFav();
             }
         });
 
-        // --- PROFILE LOGIC ---
+        // --- STARS HOVER LOGIC ---
+        const starNodes = document.querySelectorAll('#star-input span');
+        starNodes.forEach(s => {
+            s.onmouseover = () => {
+                const v = s.dataset.v;
+                starNodes.forEach(sn => sn.classList.toggle('hover', sn.dataset.v <= v));
+            };
+            s.onmouseout = () => starNodes.forEach(sn => sn.classList.remove('hover'));
+            s.onclick = () => {
+                selectedStars = s.dataset.v;
+                starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
+            };
+        });
+
+        // --- PROFILE ---
         window.openProfile = async (uid) => {
             const targetUid = uid === 'me' ? currentUser.uid : uid;
             const snap = await getDoc(doc(db, "users", targetUid));
@@ -259,7 +282,6 @@
             document.getElementById('edit-name').value = d.name;
             document.getElementById('edit-pic').value = d.photo;
 
-            // Heartbeat status
             const isOnline = d.lastSeen && (Date.now() - d.lastSeen.toMillis() < 300000);
             const statusText = isOnline ? "В сети" : "Не в сети";
             const statusColor = isOnline ? "#57cbde" : "#898989";
@@ -270,19 +292,15 @@
 
             document.getElementById('edit-profile-btn').style.display = (uid === 'me') ? 'block' : 'none';
             
-            // Counters
             const rSnap = await getDocs(query(collection(db, "reviews"), where("uid", "==", targetUid)));
             document.getElementById('count-rev').innerText = rSnap.size;
             const fSnap = await getDoc(doc(db, "favorites", targetUid + "_rastess"));
             document.getElementById('count-fav').innerText = fSnap.exists() ? "1" : "0";
 
-            // Click Handlers for sidebar
             document.getElementById('link-favs').onclick = () => loadTabContent('favs', targetUid);
             document.getElementById('link-revs').onclick = () => loadTabContent('revs', targetUid);
 
-            // Default Tab
             loadTabContent('favs', targetUid);
-
             document.getElementById('st-view-mode').style.display = 'block';
             document.getElementById('st-edit-zone').style.display = 'none';
             document.getElementById('profile-modal').style.display = 'block';
@@ -291,26 +309,14 @@
         async function loadTabContent(tab, uid) {
             const container = document.getElementById('st-dynamic-content');
             container.innerHTML = "<p>Загрузка...</p>";
-
             if(tab === 'favs') {
                 const fSnap = await getDoc(doc(db, "favorites", uid + "_rastess"));
-                container.innerHTML = fSnap.exists() ? 
-                    `<h4>Избранные игры</h4>
-                     <div class="st-card" style="display:flex; align-items:center; gap:15px;">
-                        <img src="https://raw.githubusercontent.com/Shintrix12321/Rastess/main/images/paz_bus.png" style="width:120px; border-radius:2px;" onerror="this.src='https://raw.githubusercontent.com/gist/PavelDoGreat/6748434/raw/2660233481222479e00ec9a4197e44a49646b5a3/fog.png'">
-                        <div><b style="color:white; font-size:18px;">RASTESS</b><br><small>Визуальная новелла / Хоррор</small></div>
-                     </div>` : "<h4>Избранное</h4><p>Список пуст</p>";
+                container.innerHTML = fSnap.exists() ? `<h4>Избранное</h4><div class="st-card"><b>RASTESS</b></div>` : "<p>Нет избранного</p>";
             } else {
                 const rSnap = await getDocs(query(collection(db, "reviews"), where("uid", "==", uid)));
                 let html = "<h4>Обзоры пользователя</h4>";
-                rSnap.forEach(doc => {
-                    const d = doc.data();
-                    html += `<div class="st-card">
-                                <div style="color:#fbbf24">${"★".repeat(d.stars)}</div>
-                                <p style="margin:5px 0; color:#ccc;">${d.text}</p>
-                             </div>`;
-                });
-                container.innerHTML = rSnap.size > 0 ? html : "<h4>Обзоры</h4><p>Пользователь еще не оставлял отзывов</p>";
+                rSnap.forEach(doc => { html += `<div class="st-card"><div>${"★".repeat(doc.data().stars)}</div><p>${doc.data().text}</p></div>`; });
+                container.innerHTML = rSnap.size > 0 ? html : "<p>Нет обзоров</p>";
             }
         }
 
@@ -321,25 +327,19 @@
         window.saveProfile = async () => {
             const up = { name: document.getElementById('edit-name').value, photo: document.getElementById('edit-pic').value };
             await updateDoc(doc(db, "users", currentUser.uid), up);
-            // Sync current review if exists
             const rRef = doc(db, "reviews", currentUser.uid);
-            if((await getDoc(rRef)).exists()) await updateDoc(rRef, { name: up.name, photo: up.photo });
+            if((await getDoc(rRef)).exists()) await updateDoc(rRef, up);
             location.reload();
         };
 
-        // --- REVIEWS & STARS ---
-        const stars = document.querySelectorAll('#star-input span');
-        stars.forEach(s => s.onclick = () => {
-            selectedStars = s.dataset.v;
-            stars.forEach(sn => sn.style.color = sn.dataset.v <= selectedStars ? '#fbbf24' : '#333');
-        });
-
+        // --- REVIEWS ---
         async function checkReview() {
             const snap = await getDoc(doc(db, "reviews", currentUser.uid));
             if(snap.exists()) {
                 document.getElementById('rev-text').value = snap.data().text;
                 selectedStars = snap.data().stars;
-                stars.forEach(sn => sn.style.color = sn.dataset.v <= selectedStars ? '#fbbf24' : '#333');
+                starNodes.forEach(sn => sn.classList.toggle('active', sn.dataset.v <= selectedStars));
+                document.getElementById('editor-title').innerText = "Редактировать ваш отзыв";
             }
         }
 
@@ -350,7 +350,7 @@
                 uid: currentUser.uid, name: u.name, photo: u.photo, stars: parseInt(selectedStars),
                 text: document.getElementById('rev-text').value, time: serverTimestamp()
             });
-            alert("Отзыв сохранен");
+            alert("Сохранено");
         };
 
         onSnapshot(query(collection(db, "reviews"), orderBy("time", "desc")), (snap) => {
@@ -375,7 +375,7 @@
             document.getElementById('avg-rating').innerText = snap.size > 0 ? (sum/snap.size).toFixed(1) : "0.0";
         });
 
-        window.deleteRev = async (id) => confirm("?") && await deleteDoc(doc(db, "reviews", id));
+        window.deleteRev = async (id) => confirm("Удалить?") && await deleteDoc(doc(db, "reviews", id));
 
         // --- FAVS ---
         window.toggleFav = async () => {
